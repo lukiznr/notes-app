@@ -21,7 +21,6 @@ export default function Notes() {
     fetchData();
   }, []);
 
-  const regex = /<input.*?>|<\/input>|<form.*?>|<\/form>/gi;
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
@@ -44,30 +43,29 @@ export default function Notes() {
     setTitle("");
     setContent("");
   };
-  const deleteNote = async (index) => {
-    const updatedNotes = [...notes];
-    updatedNotes.splice(index, 1);
-    setNotes(updatedNotes);
 
-    // Simpan perubahan ke localforage
-    await localforage.setItem("note", JSON.stringify(updatedNotes));
-  };
-  const updateNotes = async (index, pinned, archive) => {
-    const updatedNotes = [...notes];
-    updatedNotes[index] = {
-      ...updatedNotes[index],
-      pinned: pinned,
-      archive: archive,
-    };
-    console.log(JSON.stringify(updatedNotes));
-    setNotes(updatedNotes);
-    await localforage.setItem("note", JSON.stringify(updatedNotes));
-  };
+  const showArchiveButton = notes.some((item) => item.archive === true);
+  const [showArchive, setShowArchive] = useState(false);
   return (
     <div className="container p-2">
       <ul>
-        <button className="w-full pb-3 pt-1">Archived note 📥</button>
-        <Note notes={notes} />
+        {showArchiveButton ? (
+          <button
+            onClick={() => setShowArchive(!showArchive)}
+            className="w-full pb-3 pt-1"
+          >
+            {showArchive ? "Back" : "Archived note 📥"}
+          </button>
+        ) : null}
+        <div
+          className={`${
+            notes.length == 0 ? null : "hidden"
+          } w-full pb-3 pt-1 text-center font-bold`}
+        >
+          <h2 className="text-lg">There's nothing here!</h2>
+          <p>You can add one so it's not empty😅</p>
+        </div>
+        <Note notes={notes} setNotes={setNotes} showArchive={showArchive} />
       </ul>
       <form onSubmit={addNotes}>
         <input
