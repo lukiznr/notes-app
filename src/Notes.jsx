@@ -1,14 +1,9 @@
 import localforage from "localforage";
 import { useState, useEffect } from "react";
-
+import Note from "./Note";
 localforage.config();
 export default function Notes() {
-  const [notes, setNotes] = useState([
-    {
-      title: "Wishlist",
-      content: "<ul><li>iPhone</li><li>Lamborgini</li></ul>",
-    },
-  ]);
+  const [notes, setNotes] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -26,20 +21,6 @@ export default function Notes() {
     fetchData();
   }, []);
 
-  // useEffect untuk menyimpan data ke localforage jika notes berubah
-  /*useEffect(() => {
-    const saveData = async () => {
-      try {
-        const stringifiedNotes = JSON.stringify(notes);
-        await localforage.setItem("note", stringifiedNotes);
-        console.log("berhasil menyimpan data");
-      } catch (error) {
-        console.error("Error saving data to localforage:", error);
-      }
-    };
-
-    saveData();
-  }, [notes])*/;
   const regex = /<input.*?>|<\/input>|<form.*?>|<\/form>/gi;
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -54,37 +35,39 @@ export default function Notes() {
   };
   const addNotes = async (e) => {
     e.preventDefault();
-    if (!content) {
+    if (!title | !content) {
       return;
     }
-    const data = [...notes, { title, content }];
+    const data = [...notes, { title, content, pinned: false, archive: false }];
     setNotes(data);
     await localforage.setItem("note", JSON.stringify(data));
     setTitle("");
     setContent("");
   };
+  const deleteNote = async (index) => {
+    const updatedNotes = [...notes];
+    updatedNotes.splice(index, 1);
+    setNotes(updatedNotes);
+
+    // Simpan perubahan ke localforage
+    await localforage.setItem("note", JSON.stringify(updatedNotes));
+  };
+  const updateNotes = async (index, pinned, archive) => {
+    const updatedNotes = [...notes];
+    updatedNotes[index] = {
+      ...updatedNotes[index],
+      pinned: pinned,
+      archive: archive,
+    };
+    console.log(JSON.stringify(updatedNotes));
+    setNotes(updatedNotes);
+    await localforage.setItem("note", JSON.stringify(updatedNotes));
+  };
   return (
     <div className="container p-2">
       <ul>
-        {notes.map((data, index) => (
-          <li key={index} className="bg-gray-900 rounded-md mb-2">
-            <h1
-              className={`px-4 py-2 text-lg bg-gray-800 rounded-t-md ${
-                data.title ? "" : "hidden"
-              }`}
-            >
-              {data.title}
-            </h1>
-            <div
-              className="px-4 py-2 whitespace-pre-wrap"
-              dangerouslySetInnerHTML={{
-                __html: data.content
-                  .replace(/\n/g, "<br/>")
-                  .replace(regex, " "),
-              }}
-            />
-          </li>
-        ))}
+        <button className="w-full pb-3 pt-1">Archived note 📥</button>
+        <Note notes={notes} />
       </ul>
       <form onSubmit={addNotes}>
         <input
@@ -93,9 +76,9 @@ export default function Notes() {
           value={title}
           onChange={titleChange}
         />
-        <div className="flex w-full relative">
+        <div className="flex flex-nowrap w-full relative">
           <textarea
-            className="border p-2 resize-none bg-gray-800 rounded-bl-md flex-shrink border-none focus:outline-none"
+            className="border p-2 resize-none bg-gray-800 rounded-bl-md flex-1 border-none focus:outline-none"
             placeholder="Content"
             value={content}
             onChange={contentChange}
