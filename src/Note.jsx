@@ -39,7 +39,8 @@ export default function Note({ notes, setNotes, showArchive }) {
  bg-gray-800 rounded-t-md"
             >
               <div>
-                {data.title} {data.pinned ? "📌" : ""}
+                {data.title} {data.pinned ? "📌" : ""}{" "}
+                {data.archive ? "📥" : ""}
               </div>
               <div className="flex flex-nowrap mr-2">
                 <button
@@ -91,7 +92,8 @@ export default function Note({ notes, setNotes, showArchive }) {
  bg-gray-800 rounded-t-md"
             >
               <div>
-                {data.title} {data.pinned ? "📌" : ""}
+                {data.title} {data.pinned ? "📌" : ""}{" "}
+                {data.archive ? "📥" : ""}
               </div>
               <div className="flex flex-nowrap mr-2">
                 <button
