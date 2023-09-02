@@ -1,5 +1,7 @@
 /** @type {import('tailwindcss').Config} */
-export default {
+import { withMaterialColors } from 'tailwind-material-colors'
+export default withMaterialColors({
+  darkMode: 'class',
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
@@ -8,4 +10,6 @@ export default {
     extend: {},
   },
   plugins: [],
-}
+},{
+  primary:"#000ff0"
+})

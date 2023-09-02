@@ -14,6 +14,9 @@ dependencies:
   react-dom:
     specifier: ^18.2.0
     version: 18.2.0(react@18.2.0)
+  uuid:
+    specifier: ^9.0.0
+    version: 9.0.0
 
 devDependencies:
   '@types/react':
@@ -46,6 +49,9 @@ devDependencies:
   postcss:
     specifier: ^8.4.27
     version: 8.4.27
+  tailwind-material-colors:
+    specifier: ^1.0.1
+    version: 1.0.1(tailwindcss@3.3.3)
   tailwindcss:
     specifier: ^3.3.3
     version: 3.3.3
@@ -580,6 +586,10 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.14
     dev: true
 
+  /@material/material-color-utilities@0.2.7:
+    resolution: {integrity: sha512-0FCeqG6WvK4/Cc06F/xXMd/pv4FeisI0c1tUpBbfhA2n9Y8eZEv4Karjbmf2ZqQCPUWMrGp8A571tCjizxoTiQ==}
+    dev: true
+
   /@nodelib/fs.scandir@2.1.5:
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
     engines: {node: '>= 8'}
@@ -884,6 +894,17 @@ packages:
       fsevents: 2.3.2
     dev: true
 
+  /chroma-js@2.4.2:
+    resolution: {integrity: sha512-U9eDw6+wt7V8z5NncY2jJfZa+hUH8XEj8FQHgFJTrUFnJfXYf4Ml4adI2vXZOjqRDpFWtYVWypDfZwnJ+HIR4A==}
+    dev: true
+
+  /color-composite@1.0.2:
+    resolution: {integrity: sha512-ulQPtX9KKCCoHx1hsvqvGMhd3b96AeDeIs4tFwpcXpEUYGkfXTIDaOI210+HSk7SNhVqvf3qBPuvVoXPcm97sg==}
+    engines: {node: '>=4'}
+    dependencies:
+      color-parse: 1.4.3
+    dev: true
+
   /color-convert@1.9.3:
     resolution: {integrity: sha512-QfAUtd+vFdAtFQcC8CCyYt1fYWxSqAiK2cSD6zDB8N3cpsEBAvRxp9zOGg6G/SHHJYAT88/az/IuDGALsNVbGg==}
     dependencies:
@@ -903,6 +924,27 @@ packages:
 
   /color-name@1.1.4:
     resolution: {integrity: sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA==}
+    dev: true
+
+  /color-parse@1.4.3:
+    resolution: {integrity: sha512-BADfVl/FHkQkyo8sRBwMYBqemqsgnu7JZAwUgvBvuwwuNUZAhSvLTbsEErS5bQXzOjDR0dWzJ4vXN2Q+QoPx0A==}
+    dependencies:
+      color-name: 1.1.4
+    dev: true
+
+  /color-string@1.9.1:
+    resolution: {integrity: sha512-shrVawQFojnZv6xM40anx4CkoDP+fZsw/ZerEMsW/pyzsRbElpsL/DBVW7q3ExxwusdNXI3lXpuhEZkzs8p5Eg==}
+    dependencies:
+      color-name: 1.1.4
+      simple-swizzle: 0.2.2
+    dev: true
+
+  /color@4.2.3:
+    resolution: {integrity: sha512-1rXeuUUiGGrykh+CeBdu5Ie7OJwinCgQY0bc7GCRxy5xVHy+moaqkpL/jqQq0MtQOeYcrqEz4abc5f0KtU7W4A==}
+    engines: {node: '>=12.5.0'}
+    dependencies:
+      color-convert: 2.0.1
+      color-string: 1.9.1
     dev: true
 
   /commander@2.20.3:
@@ -1597,6 +1639,10 @@ packages:
       call-bind: 1.0.2
       get-intrinsic: 1.2.1
       is-typed-array: 1.1.12
+    dev: true
+
+  /is-arrayish@0.3.2:
+    resolution: {integrity: sha512-eVRqCvVlZbuw3GrM63ovNSNAeA1K16kaR/LRY/92w0zxQ5/1YzwblUX652i4Xs9RwAGjW9d9y6X88t8OaAJfWQ==}
     dev: true
 
   /is-bigint@1.0.4:
@@ -2309,6 +2355,12 @@ packages:
       object-inspect: 1.12.3
     dev: true
 
+  /simple-swizzle@0.2.2:
+    resolution: {integrity: sha512-JA//kQgZtbuY83m+xT+tXJkmJncGMTFT+C+g2h2R9uxkYIrE2yy9sgmcLhCnw57/WSD+Eh3J97FPEDFnbXnDUg==}
+    dependencies:
+      is-arrayish: 0.3.2
+    dev: true
+
   /source-map-js@1.0.2:
     resolution: {integrity: sha512-R0XvVJ9WusLiqTCEiGCmICCMplcCkIwwR11mOSD9CR5u+IXYdiseeEuXCVAjS54zqwkLcPNnmU4OeJ6tUrWhDw==}
     engines: {node: '>=0.10.0'}
@@ -2402,6 +2454,36 @@ packages:
   /supports-preserve-symlinks-flag@1.0.0:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
+    dev: true
+
+  /tailwind-material-colors@1.0.1(tailwindcss@3.3.3):
+    resolution: {integrity: sha512-3Fvdb+uA3qrUAyThavV+S7JXXdBkTW/DJNOsgruZ6S2lds54a59gFAPED88R3MhiPe9pW3ViEHoD/td0mc5+4g==}
+    peerDependencies:
+      tailwindcss: ^3.0.0
+    dependencies:
+      '@material/material-color-utilities': 0.2.7
+      tailwind-material-surfaces: 1.2.0(tailwindcss@3.3.3)
+      tailwind-mode-aware-colors: 1.2.4(tailwindcss@3.3.3)
+      tailwindcss: 3.3.3
+    dev: true
+
+  /tailwind-material-surfaces@1.2.0(tailwindcss@3.3.3):
+    resolution: {integrity: sha512-IWo9Aact7cT2po4d5VPbDhNXx0L6N2ene+DIupj6i6OrOQA/D2dr3FHVnhcH8U4ERru4aUkIanXbb42xiv053g==}
+    peerDependencies:
+      tailwindcss: ^3.0.0
+    dependencies:
+      chroma-js: 2.4.2
+      color-composite: 1.0.2
+      tailwindcss: 3.3.3
+    dev: true
+
+  /tailwind-mode-aware-colors@1.2.4(tailwindcss@3.3.3):
+    resolution: {integrity: sha512-Fb9CNWauNjBBMJFWvg2pVFFm9KsKjrsq15cIqFbifoIjA74khmUYBMLI6zeovwm0oDpEbrB4muX5QOx0JB5/mQ==}
+    peerDependencies:
+      tailwindcss: ^3.0.0
+    dependencies:
+      color: 4.2.3
+      tailwindcss: 3.3.3
     dev: true
 
   /tailwindcss@3.3.3:
@@ -2559,6 +2641,11 @@ packages:
   /util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
     dev: true
+
+  /uuid@9.0.0:
+    resolution: {integrity: sha512-MXcSTerfPa4uqyzStbRoTgt5XIe3x5+42+q1sDuy3R5MDk66URdLMOZe5aPX/SQd+kuYAh0FdP/pO28IkQyTeg==}
+    hasBin: true
+    dev: false
 
   /vite@4.4.5:
     resolution: {integrity: sha512-4m5kEtAWHYr0O1Fu7rZp64CfO1PsRGZlD3TAB32UmQlpd7qg15VF7ROqGN5CyqN7HFuwr7ICNM2+fDWRqFEKaA==}

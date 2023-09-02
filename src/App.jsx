@@ -1,52 +1,62 @@
 import localforage from "localforage";
 import { useState, useEffect } from "react";
-import Todo from "./Todos";
-import Notes from "./Notes";
+import Header from "./components/header";
+import Editor from "./components/editor";
+import FAB from "./components/fab";
 function App() {
+  const [isEditing, setIsEditing] = useState(false);
+  const [editor, setEditor] = useState("note");
+  const [item, setItem] = useState([]);
+  const [index, setIndex] = useState(0);
   useEffect(() => {
-    localforage
-      .getItem("view")
-      .then(function (value) {
-        const note = value.note;
-        const todo = value.todo;
-        setNote(note);
-        setTodo(todo);
-      })
-      .catch(function (err) {});
-  });
-
-  const [page, setPage] = useState(true);
-  const active = "bg-blue-500";
-  const nonactive = "bg-gray-700 text-gray-500";
+    async function getData() {
+      await localforage
+        .getItem("item")
+        .then((data) => setItem(JSON.parse(data)))
+        .catch((err) => console.error(err));
+    }
+    getData();
+  }, [isEditing]);
+  useEffect(() => {
+    setIndex(item.length - 1);
+  }, [item]);
   return (
     <>
-      <div className="min-h-screen bg-gray-900 text-white flex flex-col justify-center items-center">
-        <header className="text-4xl font-bold mb-8">Notes + Todo</header>
-        <div className="container flex flex-col bg-gray-700 rounded-lg">
-          <div className="w-full flex flex-row justify-around items-center">
-            <h2
-              className={`${
-                page ? active : nonactive
-              } w-1/2 rounded-tl-lg text-center py-3 border-b-2 border-blue-500 relative`}
-              onClick={() => setPage(true)}
-            >
-              Notes
-            </h2>
-            <h2
-              className={`${
-                !page ? active : nonactive
-              } w-1/2 rounded-tr-lg text-center py-3 border-b-2 border-blue-500 relative`}
-              onClick={() => setPage(false)}
-            >
-              Todo
-            </h2>
+      <Header />
+      {isEditing ? (
+        <>
+          <button onClick={() => setIsEditing(!isEditing)}>
+            <span className="icon bg-surface-variant bg-opacity-60 rounded-xl p-2 ml-2">
+              arrow_back
+            </span>
+          </button>
+          <Editor editor={editor} index={index} />
+        </>
+      ) : (
+        <>
+          <div className="columns-2 sm:columns-3 md:columns-4 gap-4 p-4">
+            {item &&
+              item.map((data, index) => (
+                <div
+                  className="border-2 border-outline rounded-lg break-inside-avoid p-4"
+                  key={index}
+                  onClick={() => {
+                    setIsEditing(!isEditing);
+                    setIndex(index);
+                  }}
+                >
+                  {JSON.stringify(data, null, 2)}
+                </div>
+              ))}
           </div>
-          <div>{page ? <Notes /> : <Todo />}</div>
-        </div>
-        <footer className="mt-8 text-sm text-gray-600">
-          © 2023 Notes + Todo by Luki
-        </footer>
-      </div>
+          <FAB
+            setEditor={setEditor}
+            setIsEditing={setIsEditing}
+            index={index}
+            setIndex={setIndex}
+          />
+        </>
+      )}
     </>
   );
 }
